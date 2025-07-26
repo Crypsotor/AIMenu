@@ -1,0 +1,6 @@
+{
+  "name": "AImenu: Tu Asistente de Cocina",
+  "description": "Una aplicación de planificación de comidas que genera menús semanales, recetas personalizadas, listas de la compra y te da ideas. Usa el 'Modo Rescate' para cocinar con lo que tienes o 'Ideas Rápidas' para inspiración instantánea.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
