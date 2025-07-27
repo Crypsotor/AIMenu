@@ -11,7 +11,7 @@ if (!process.env.API_KEY) {
     console.error("La API Key de Gemini no está configurada. Por favor, configúrala en las variables de entorno.");
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY! });
 
 // --- Schemas for AI Response ---
 const recipeSchema = {
