@@ -33,7 +33,7 @@ jobs:
       # --- PASO DE DEPURACIÓN AÑADIDO ---
       - name: Check for API Key environment variable
         run: |
-          if [ -z "$GEMINI_API_KEY" ]; then
+          if [ -z "$VITE_GEMINI_API_KEY"]; then
             echo "::error::La variable de entorno GEMINI_API_KEY no está llegando al 'build'."
             exit 1
           else
