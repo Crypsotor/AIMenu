@@ -1,65 +1,60 @@
-# Nombre del flujo de trabajo que se mostrará en la pestaña "Actions"
+# Nombre del flujo de trabajo
 name: Deploy to GitHub Pages
 
-# Este flujo de trabajo se ejecuta automáticamente cada vez que haces un 'push'
-# a la rama 'main'.
 on:
   push:
     branches: [ "main" ]
 
-# Permisos que necesita el robot para leer el código y publicar en Pages.
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Define los trabajos que se van a ejecutar.
 jobs:
-  # El primer trabajo se llama 'build'. Es responsable de construir el sitio.
   build:
-    runs-on: ubuntu-latest # Se ejecuta en un ordenador virtual con Ubuntu.
+    runs-on: ubuntu-latest
     
-    # Aquí le pasamos la clave secreta al entorno de construcción.
+    # Le pasamos la clave secreta al entorno de este trabajo.
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       
     steps:
-      # 1. Clona tu repositorio en el ordenador virtual.
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      # 2. Instala Node.js para poder usar 'npm'.
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # Puedes ajustar la versión si lo necesitas.
+          node-version: "20"
           
-      # 3. Instala las dependencias del proyecto (como React, Vite, etc.).
       - name: Install dependencies
         run: npm install
         
-      # 4. Ejecuta el comando de construcción que crea la carpeta 'dist'.
+      # --- PASO DE DEPURACIÓN AÑADIDO ---
+      - name: Check for API Key environment variable
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "::error::La variable de entorno GEMINI_API_KEY no está llegando al 'build'."
+            exit 1
+          else
+            echo "Éxito: La variable de entorno GEMINI_API_KEY sí está disponible."
+          fi
+          
       - name: Build project
         run: npm run build
         
-      # 5. Sube la carpeta 'dist' como un "artefacto" para que el siguiente trabajo pueda usarla.
       - name: Upload production artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
-  # El segundo trabajo se llama 'deploy'. Se ejecuta DESPUÉS de que 'build' termine.
   deploy:
-    needs: build # Le dice a GitHub que espere a que el trabajo 'build' termine con éxito.
+    needs: build
     runs-on: ubuntu-latest
-    
-    # Configura el entorno para el despliegue en GitHub Pages.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      
     steps:
-      # 1. Despliega el artefacto (la carpeta 'dist') que subimos en el trabajo anterior.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
