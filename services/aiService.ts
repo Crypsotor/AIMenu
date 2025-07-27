@@ -119,7 +119,7 @@ const suggestionsSchema = {
     required: ['suggestions']
 };
 
-export const hasApiKey = (): boolean => !!process.env.API_KEY;
+export const hasapiKey = (): boolean => !!import.meta.env.VITE_GEMINI_API_KEY;
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
