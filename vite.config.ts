@@ -1,15 +1,15 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 
-// Ya no necesitamos 'loadEnv' para el despliegue
-
 export default defineConfig(({ mode }) => {
   return {
     base: '/AIMenu/',
     define: {
-      // Leemos DIRECTAMENTE del entorno del proceso que ejecuta la Acción
-      'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY),
+      // Aquí está la magia:
+      // Le decimos a Vite que busque en tu código 'process.env.GEMINI_API_KEY'
+      // y lo reemplace con el valor REAL de la variable VITE_GEMINI_API_KEY
+      // que le pasa el robot.
+      'process.env.GEMINI_API_KEY': JSON.stringify(process.env.VITE_GEMINI_API_KEY),
     },
     resolve: {
       alias: {
