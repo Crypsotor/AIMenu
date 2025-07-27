@@ -7,7 +7,7 @@ import { translations } from '../translations';
 
 type Language = 'es' | 'en';
 
-if (!process.env.API_KEY) {
+if (!import.meta.env.VITE_GEMINI_API_KEY) {
     console.error("La API Key de Gemini no está configurada. Por favor, configúrala en las variables de entorno.");
 }
 
