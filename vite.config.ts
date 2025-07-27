@@ -1,15 +1,15 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
+
+// Ya no necesitamos 'loadEnv' para el despliegue
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, '.', '');
   return {
-    // 👇 AÑADE LA LÍNEA 'base' AQUÍ 👇
     base: '/AIMenu/',
-
     define: {
-      'process.env.API_KEY': JSON.stringify(env.API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      // Leemos DIRECTAMENTE del entorno del proceso que ejecuta la Acción
+      'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+      'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY),
     },
     resolve: {
       alias: {
