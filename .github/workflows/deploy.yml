@@ -62,4 +62,4 @@ jobs:
       # 1. Despliega el artefacto (la carpeta 'dist') que subimos en el trabajo anterior.
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4```
+        uses: actions/deploy-pages@v4
